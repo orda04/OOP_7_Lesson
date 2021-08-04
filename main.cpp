@@ -13,26 +13,29 @@ public:
     date(){}
     date(int yy, int mm, int dd):Year(yy),Month(mm),Day(dd){}
 
-    //p - это сткрока с параметрами, указывающими какие поля структур не следует использовать при сравнении
+
 
    bool Less(const date &d1,const date &d2)
-   //bool Less(const date &d1,const date &d2,char *p)  //*p добавлено для будущей реализации исключения из сравнения дней или месяцев или годов
    {
-       // size_t end=strlen(p);//если включаем  p  необходимо раскомментить строки с p ниже
        if (d1.Year < d2.Year )return true;
-       // if (d1.Year < d2.Year && !find(p,p+end,'y'))return true;
        if (d1.Month < d2.Month )return true;
-       // if (d1.Month < d2.Month &&!find(p,p+end,'m'))return true;
        if (d1.Day < d2.Day)return true;
-       // if (d1.Day < d2.Day && !find(p,p+end,'d'))return true;
-        return false;
+       return false;
     }
-    //функция возвращает количество дней между датами
-    void Swapme(date &d1, date&d2)
+                                                       //p - это сткрока с параметрами, указывающими какие поля структур не следует использовать при сравнении
+ /*    bool Less(const date &d1,const date &d2,char *p)  //*p добавлено для будущей реализации исключения из сравнения дней или месяцев или годов
+     {                                                 //функция возвращает количество дней между датами
+     size_t end=strlen(p);                             //если включаем  p  необходимо раскомментить строки с p ниже
+
+     if (d1.Year < d2.Year && !find(p,p+end,'y'))return true;
+     if (d1.Month < d2.Month &&!find(p,p+end,'m'))return true;
+     if (d1.Day < d2.Day && !find(p,p+end,'d'))return true;
+     return false;
+     }
+ */
+   void Swapme(date &d1, date&d2)
     {
-
-
-            if (&d1 != &d2)
+           if (&d1 != &d2)
             {
                 date tmp = d1;
                 d1 = d2;
@@ -186,15 +189,24 @@ istream &operator>>(istream &in,date &d)
     char c;
     in >> d.Year;
     in >> c;
-    if (c=='-'||'.'||' '||':')
-    {
+    if (c=='-')
+      {
         in >> d.Month;
         in >> c;
-        if (c=='-'||'.'||' '||':') in >> d.Day;
-        else cout << "wrong date format, excepted '-' after month, variable is not complete\n";
-    }
-    else cout << "wrong date format, excepted '-' after years, variable is not complete\n";
-    return in;
+        if (c=='-'||'.'||' '||':')
+            {
+            in >> d.Day;
+            }
+        else
+            {
+            cout << "wrong date format, excepted '-' after month, variable is not complete\n";
+            }
+      }
+    else
+      {
+        cout << "wrong date format, excepted '-' after years, variable is not complete\n";
+      }
+
 }
 int main()
 {
